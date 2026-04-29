@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    whitebox (0.1.0)
+    whitebox (0.1.1)
 
 GEM
   remote: https://rubygems.org/
@@ -45,7 +45,7 @@ CHECKSUMS
   public_suffix (7.0.5) sha256=1a8bb08f1bbea19228d3bed6e5ed908d1cb4f7c2726d18bd9cadf60bc676f623
   rexml (3.4.4) sha256=19e0a2c3425dfbf2d4fc1189747bdb2f849b6c5e74180401b15734bc97b5d142
   webmock (3.26.2) sha256=774556f2ea6371846cca68c01769b2eac0d134492d21f6d0ab5dd643965a4c90
-  whitebox (0.1.0)
+  whitebox (0.1.1)
 
 BUNDLED WITH
   4.0.10
