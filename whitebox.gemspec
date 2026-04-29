@@ -3,8 +3,8 @@ require_relative "lib/whitebox/version"
 Gem::Specification.new do |spec|
   spec.name          = "whitebox"
   spec.version       = Whitebox::VERSION
-  spec.authors       = ["WhiteBox"]
-  spec.email         = ["hello@whiteboxhq.ai"]
+  spec.authors       = [ "WhiteBox" ]
+  spec.email         = [ "hello@whiteboxhq.ai" ]
 
   spec.summary       = "WhiteBox SDK - AI Decision Observability"
   spec.description   = "Run every AI classification through multiple models. Measure agreement. Ship with confidence or escalate to a human."
@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   spec.metadata["changelog_uri"]   = "https://github.com/ja-roque/whitebox/blob/main/CHANGELOG.md"
 
   spec.files = Dir["lib/**/*", "LICENSE", "README.md"]
-  spec.require_paths = ["lib"]
+  spec.require_paths = [ "lib" ]
 
   # Zero dependencies - uses only stdlib (net/http, json, uri)
 end

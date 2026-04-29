@@ -53,10 +53,10 @@ class TestWhiteboxClient < Minitest::Test
     }
 
     stub_request(:post, "#{BASE_URL}/decide")
-      .with(body: hash_including("input" => "test input", "options" => ["a", "b"]))
+      .with(body: hash_including("input" => "test input", "options" => [ "a", "b" ]))
       .to_return(status: 200, body: JSON.generate(response_body))
 
-    decision = @client.decide(input: "test input", options: ["a", "b"])
+    decision = @client.decide(input: "test input", options: [ "a", "b" ])
 
     assert_instance_of Whitebox::Decision, decision
     assert_equal "dec_1", decision.id
@@ -69,13 +69,13 @@ class TestWhiteboxClient < Minitest::Test
 
   def test_decide_passes_models
     stub_request(:post, "#{BASE_URL}/decide")
-      .with(body: hash_including("models" => ["gpt-4o", "claude-3-5-sonnet"]))
+      .with(body: hash_including("models" => [ "gpt-4o", "claude-3-5-sonnet" ]))
       .to_return(status: 200, body: JSON.generate(decision_hash))
 
-    @client.decide(input: "x", options: ["a"], models: ["gpt-4o", "claude-3-5-sonnet"])
+    @client.decide(input: "x", options: [ "a" ], models: [ "gpt-4o", "claude-3-5-sonnet" ])
 
     assert_requested(:post, "#{BASE_URL}/decide",
-      body: hash_including("models" => ["gpt-4o", "claude-3-5-sonnet"]))
+      body: hash_including("models" => [ "gpt-4o", "claude-3-5-sonnet" ]))
   end
 
   def test_decide_default_params
@@ -83,7 +83,7 @@ class TestWhiteboxClient < Minitest::Test
       .with(body: hash_including("runs" => 7, "threshold" => 0.75, "sync" => true, "mode" => "standard"))
       .to_return(status: 200, body: JSON.generate(decision_hash))
 
-    @client.decide(input: "x", options: ["a"])
+    @client.decide(input: "x", options: [ "a" ])
 
     assert_requested(:post, "#{BASE_URL}/decide",
       body: hash_including("runs" => 7, "threshold" => 0.75, "sync" => true, "mode" => "standard"))
@@ -96,7 +96,7 @@ class TestWhiteboxClient < Minitest::Test
       .with(body: hash_including("mode" => "fast", "sync" => true))
       .to_return(status: 200, body: JSON.generate(decision_hash))
 
-    decision = @client.decide_fast(input: "x", options: ["a", "b"])
+    decision = @client.decide_fast(input: "x", options: [ "a", "b" ])
 
     assert_instance_of Whitebox::Decision, decision
     assert_requested(:post, "#{BASE_URL}/decide",
@@ -107,8 +107,8 @@ class TestWhiteboxClient < Minitest::Test
 
   def test_decide_bulk_sends_items_and_returns_batch
     items = [
-      { "input" => "item1", "options" => ["a", "b"] },
-      { "input" => "item2", "options" => ["c", "d"] }
+      { "input" => "item1", "options" => [ "a", "b" ] },
+      { "input" => "item2", "options" => [ "c", "d" ] }
     ]
 
     stub_request(:post, "#{BASE_URL}/decide/bulk")
@@ -127,7 +127,7 @@ class TestWhiteboxClient < Minitest::Test
       .with(body: hash_including("webhook_url" => "https://example.com/hook"))
       .to_return(status: 200, body: JSON.generate(batch_hash))
 
-    @client.decide_bulk(items: [{ "input" => "x" }], webhook_url: "https://example.com/hook")
+    @client.decide_bulk(items: [ { "input" => "x" } ], webhook_url: "https://example.com/hook")
 
     assert_requested(:post, "#{BASE_URL}/decide/bulk",
       body: hash_including("webhook_url" => "https://example.com/hook"))
@@ -148,7 +148,7 @@ class TestWhiteboxClient < Minitest::Test
   # ── list_decisions ───────────────────────────────────────────
 
   def test_list_decisions
-    body = { "decisions" => [decision_hash("dec_1"), decision_hash("dec_2")] }
+    body = { "decisions" => [ decision_hash("dec_1"), decision_hash("dec_2") ] }
 
     stub_request(:get, "#{BASE_URL}/decisions?page=1&per_page=20")
       .to_return(status: 200, body: JSON.generate(body))
@@ -162,7 +162,7 @@ class TestWhiteboxClient < Minitest::Test
   end
 
   def test_list_decisions_pagination
-    body = { "decisions" => [decision_hash("dec_3")] }
+    body = { "decisions" => [ decision_hash("dec_3") ] }
 
     stub_request(:get, "#{BASE_URL}/decisions?page=2&per_page=5")
       .to_return(status: 200, body: JSON.generate(body))
@@ -187,7 +187,7 @@ class TestWhiteboxClient < Minitest::Test
   # ── get_batch_results ────────────────────────────────────────
 
   def test_get_batch_results
-    results = { "results" => [decision_hash("dec_1")], "total" => 1 }
+    results = { "results" => [ decision_hash("dec_1") ], "total" => 1 }
 
     stub_request(:get, "#{BASE_URL}/batches/batch_1/results")
       .to_return(status: 200, body: JSON.generate(results))
@@ -202,7 +202,7 @@ class TestWhiteboxClient < Minitest::Test
   # ── list_reviews ─────────────────────────────────────────────
 
   def test_list_reviews
-    reviews = [review_hash("rev_1"), review_hash("rev_2")]
+    reviews = [ review_hash("rev_1"), review_hash("rev_2") ]
 
     stub_request(:get, "#{BASE_URL}/reviews")
       .to_return(status: 200, body: JSON.generate(reviews))
@@ -232,7 +232,7 @@ class TestWhiteboxClient < Minitest::Test
   # ── list_models ──────────────────────────────────────────────
 
   def test_list_models
-    body = { "models" => ["gpt-4o", "claude-3-5-sonnet"] }
+    body = { "models" => [ "gpt-4o", "claude-3-5-sonnet" ] }
 
     stub_request(:get, "#{BASE_URL}/models")
       .to_return(status: 200, body: JSON.generate(body))
@@ -240,7 +240,7 @@ class TestWhiteboxClient < Minitest::Test
     result = @client.list_models
 
     assert_kind_of Hash, result
-    assert_equal ["gpt-4o", "claude-3-5-sonnet"], result["models"]
+    assert_equal [ "gpt-4o", "claude-3-5-sonnet" ], result["models"]
   end
 
   def test_models_alias
@@ -266,7 +266,7 @@ class TestWhiteboxClient < Minitest::Test
       .to_return(status: 402, body: '{"error":"Insufficient credits"}')
 
     err = assert_raises(Whitebox::InsufficientCreditsError) do
-      @client.decide(input: "x", options: ["a"])
+      @client.decide(input: "x", options: [ "a" ])
     end
     assert_equal 402, err.status_code
     assert_equal "Insufficient credits", err.message
@@ -354,7 +354,7 @@ class TestWhiteboxClient < Minitest::Test
     assert_equal "dec_99", r.decision_id
     assert_equal "pending", r.status
     assert_equal "some input", r.input
-    assert_equal ["a", "b"], r.options
+    assert_equal [ "a", "b" ], r.options
   end
 
   private
@@ -383,7 +383,7 @@ class TestWhiteboxClient < Minitest::Test
   def review_hash(id = "rev_1")
     {
       "id" => id, "decision_id" => "dec_99", "status" => "pending",
-      "input" => "some input", "options" => ["a", "b"],
+      "input" => "some input", "options" => [ "a", "b" ],
       "model_votes" => { "gpt-4o" => "a", "claude" => "b" },
       "confidence" => 0.55, "sla_deadline" => "2026-04-28T00:00:00Z",
       "created_at" => "2026-04-27T00:00:00Z"

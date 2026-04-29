@@ -21,7 +21,7 @@ module Whitebox
         runs: runs,
         threshold: threshold,
         sync: sync,
-        mode: mode,
+        mode: mode
       }
       body[:models] = models if models
 
@@ -42,7 +42,7 @@ module Whitebox
         options: options,
         runs: runs,
         threshold: threshold,
-        webhook_url: webhook_url,
+        webhook_url: webhook_url
       }.compact
 
       data = request(:post, "/decide/bulk", body)
@@ -101,11 +101,11 @@ module Whitebox
       http.open_timeout = 10
 
       req = case method
-            when :get    then Net::HTTP::Get.new(uri)
-            when :post   then Net::HTTP::Post.new(uri)
-            when :patch  then Net::HTTP::Patch.new(uri)
-            when :delete then Net::HTTP::Delete.new(uri)
-            end
+      when :get    then Net::HTTP::Get.new(uri)
+      when :post   then Net::HTTP::Post.new(uri)
+      when :patch  then Net::HTTP::Patch.new(uri)
+      when :delete then Net::HTTP::Delete.new(uri)
+      end
 
       req["Authorization"] = "Bearer #{@api_key}"
       req["Content-Type"] = "application/json"
