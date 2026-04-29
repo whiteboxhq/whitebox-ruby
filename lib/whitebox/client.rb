@@ -85,9 +85,10 @@ module Whitebox
     end
 
     # List supported models
-    def models
+    def list_models
       request(:get, "/models")
     end
+    alias_method :models, :list_models
 
     private
 
